@@ -1,10 +1,27 @@
+# Extended Euclidean Algorithm to find modular inverse
+def extended_gcd(a, b):
+    if b == 0:
+        return a, 1, 0
+    else:
+        g, x, y = extended_gcd(b, a % b)
+        return g, y, x - (a // b) * y
+
+# Function to find modular inverse
+def mod_inverse(e, phi_n):
+    g, x, y = extended_gcd(e, phi_n)
+    if g != 1:
+        raise ValueError("Error: Modular inverse does not exist")
+    else:
+        return x % phi_n
+
 # Predefined primes for simplicity
 p, q = 61, 53
 n = p * q
 phi_n = (p - 1) * (q - 1)
 
 # Public key exponent (e) and private key exponent (d)
-e, d = 17, 2753
+e = 17
+d = mod_inverse(e, phi_n)
 
 # Public and private keys
 public_key = (e, n)
